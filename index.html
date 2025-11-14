@@ -429,7 +429,7 @@
         // ==================== CONFIGURATION ====================
         // ⚠️ REPLACE THESE VALUES BEFORE DEPLOYMENT
         const CONFIG = {
-            BACKEND_URL: 'https://script.google.com/macros/s/AKfycbyV5vCBNXIjfrVDpy7Q-9Y4EWrYQdzJeBHVXfgBJNKUcHHYsgcFsoDbUBRT43QT90C4JA/exec',
+            BACKEND_URL: 'https://script.google.com/macros/s/AKfycbw_a3psOYEEx8hY_jNo4d8OmtB6mRsvXDpoL0YfEml-quguWYicG1mltc_WvcIYWpmmVQ/exec',
             PORTAL_URL: 'https://portal.digitalacademy360.com/edmingleliveclass/join?token=vz1ATTSOlktuOc6e',
             
             // Webinar timing (IST format: YYYY-MM-DDTHH:MM:SS+05:30)
@@ -562,18 +562,22 @@
             try {
                 const response = await fetch(CONFIG.BACKEND_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({
                         action: 'register',
                         name: name,
                         phone: phone
-                    })
+                    }),
+                    redirect: 'follow'
                 });
 
-                return await response.json();
+                const data = await response.json();
+                return data;
             } catch (error) {
                 console.error('Registration error:', error);
-                throw new Error('Network error. Please check your connection.');
+                throw new Error('Unable to connect to server. Please try again.');
             }
         }
 
@@ -581,17 +585,21 @@
             try {
                 const response = await fetch(CONFIG.BACKEND_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({
                         action: 'login',
                         phone: phone
-                    })
+                    }),
+                    redirect: 'follow'
                 });
 
-                return await response.json();
+                const data = await response.json();
+                return data;
             } catch (error) {
                 console.error('Login error:', error);
-                throw new Error('Network error. Please check your connection.');
+                throw new Error('Unable to connect to server. Please try again.');
             }
         }
 
@@ -696,5 +704,4 @@
         init();
     </script>
 </body>
-
 </html>
